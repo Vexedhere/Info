@@ -3,192 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mythical Wiki | Network Documentation</title>
+    <title>Mythical Network | Official Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #010409; color: #e6edf3; scroll-behavior: smooth; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #020617; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
         .mythic-font { font-family: 'Cinzel', serif; }
-        .glass { background: rgba(13, 17, 23, 0.7); border: 1px solid rgba(48, 54, 61, 0.8); backdrop-filter: blur(12px); transition: 0.3s; }
-        .glass:hover { border-color: #eab308; }
-        .btn-gold { background: #eab308; color: #000; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; }
-        .btn-gold:hover { transform: translateY(-2px); opacity: 0.9; }
-        .sidebar-link { border-left: 2px solid transparent; transition: 0.2s; }
-        .sidebar-link:hover { border-left: 2px solid #eab308; background: rgba(234, 179, 8, 0.05); color: #eab308; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; animation: marquee 35s linear infinite; }
-        input, textarea, select { background: rgba(255,255,255,0.03) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
+        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.1) 0%, transparent 70%); }
+        .rule-card { border-left: 4px solid #eab308; background: rgba(255,255,255,0.02); transition: 0.3s ease; }
+        .rule-card:hover { background: rgba(234, 179, 8, 0.05); transform: translateX(5px); }
+        .staff-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(255,255,255,0.05); }
+        input, textarea, select { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; width: 100%; padding: 14px; border-radius: 12px; margin-top: 8px; }
+        .hidden-form { display: none; }
+        .social-icon { font-size: 2rem; transition: 0.3s; color: #94a3b8; }
+        .social-icon:hover { color: #eab308; transform: translateY(-5px); }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="bg-[#eab308] text-black py-1.5 overflow-hidden whitespace-nowrap z-[60] relative">
-        <div class="inline-block animate-marquee text-[9px] font-black uppercase tracking-[0.2em]">
-            SYSTEM STATUS: OPERATIONAL • RECRUITMENT PORTAL: ACTIVE • SEASON 1 DEVELOPMENT IN PROGRESS • 
-        </div>
-    </div>
-
-    <nav class="sticky top-0 z-50 glass px-8 lg:px-16 h-16 flex items-center justify-between border-b border-white/5">
-        <div class="flex items-center gap-4">
-            <span class="mythic-font text-lg font-bold tracking-widest text-white uppercase">Mythical<span class="text-yellow-500">Wiki</span></span>
-        </div>
-        <div class="flex gap-8 text-[10px] font-bold tracking-[0.2em]">
-            <a href="https://store.mythicalstudios.online" class="hover:text-yellow-500 transition">STORE</a>
-            <a href="#apply" class="hover:text-yellow-500 transition">APPLY</a>
+    <nav class="sticky top-0 z-[100] bg-slate-950/90 px-6 py-4 border-b border-white/5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-dragon text-yellow-500"></i>
+                <a href="#" class="mythic-font text-lg font-black uppercase tracking-widest">Mythical<span class="text-yellow-500">Network</span></a>
+            </div>
+            <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-widest items-center">
+                <a href="#home" class="hover:text-yellow-500 transition">Home</a>
+                <a href="#rules" class="hover:text-yellow-500 transition">Rules</a>
+                <a href="#staff" class="hover:text-yellow-500 transition">Staff</a>
+                <a href="https://store.mythicalstudios.online" target="_blank" class="text-yellow-500 border border-yellow-500/40 px-5 py-2 rounded-xl hover:bg-yellow-500 hover:text-black transition">STORE</a>
+            </div>
         </div>
     </nav>
 
-    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 p-8 lg:p-20">
-        <aside class="w-full lg:w-64 space-y-10">
-            <nav class="flex flex-col gap-3 text-xs font-bold">
-                <a href="#about" class="sidebar-link p-3 rounded-r-xl">General Infrastructure</a>
-                <a href="#apply" class="sidebar-link p-3 rounded-r-xl text-yellow-500 font-black italic">Recruitment Portal</a>
-                <a href="#staff" class="sidebar-link p-3 rounded-r-xl">Staff Directory</a>
-            </nav>
-        </aside>
+    <header id="home" class="relative hero-gradient min-h-[90vh] flex flex-col items-center justify-center text-center px-6">
+        <div class="bg-yellow-500/10 px-4 py-1 rounded-full border border-yellow-500/20 mb-6">
+            <p class="text-[10px] font-black uppercase tracking-widest text-yellow-500">Owned by Chethan</p>
+        </div>
+        <h1 class="mythic-font text-5xl md:text-8xl mb-6 leading-none tracking-tighter">THE <span class="text-yellow-500">MYTHICAL</span><br>NETWORK</h1>
+        <p class="max-w-2xl text-slate-400 text-sm md:text-base mb-10 leading-relaxed">
+            Experience the ultimate Minecraft Dominion. Our network offers custom-coded features, competitive gameplay, and a community built by players, for players. Forge your legacy today.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="https://store.mythicalstudios.online" target="_blank" class="bg-yellow-500 text-black px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white transition shadow-xl shadow-yellow-500/10">Official Store</a>
+            <a href="#rules" class="bg-white/5 border border-white/10 px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/10 transition">Rules & Wiki</a>
+        </div>
+    </header>
 
-        <main class="flex-1 space-y-32">
-            
-            <section id="about" class="glass p-10 rounded-[2.5rem] border-white/5">
-                <h2 class="mythic-font text-2xl mb-4 uppercase tracking-tighter">Infrastructure</h2>
-                <p class="text-slate-400 text-sm leading-relaxed">
-                    Mythical Studios operates as a high-performance Minecraft development hub. Our infrastructure is optimized for technical excellence, focused on custom gameplay logic and player-centric scalability.
-                </p>
-                <div class="mt-8 pt-8 border-t border-white/5 flex items-center gap-4">
-                    <div class="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-                        <i class="fas fa-microchip text-slate-500 text-xs"></i>
-                    </div>
-                    <div class="text-[11px]">
-                        <span class="block font-bold">U. Chethan</span>
-                        <span class="text-slate-500 uppercase tracking-widest">Administration</span>
-                    </div>
-                </div>
-            </section>
+    <section id="rules" class="max-w-5xl mx-auto px-6 py-24 border-t border-white/5">
+        <h2 class="mythic-font text-3xl text-center mb-16 uppercase tracking-widest text-yellow-500">The 10 Commandments</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="rule-card p-6 rounded-r-xl"><h4>01. NO HACKING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Permanent IP ban for clients/exploits.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>02. RESPECT STAFF</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Staff word is final. Do not disrespect Chethan.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>03. NO GRIEFING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Do not destroy others' property or claims.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>04. CHAT CONDUCT</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No racism, sexism, or advertising servers.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>05. LAG MACHINES</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Do not build machines meant to crash the server.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>06. NO SCAMMING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Fair trading only. Items will be wiped if caught.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>07. NO EXPLOITS</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Report bugs immediately to stay rewarded.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>08. ALT ACCOUNTS</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No bypass-banning using alternate accounts.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>09. FAIR PVP</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No combat logging or glitching in combat.</p></div>
+            <div class="rule-card p-6 rounded-r-xl"><h4>10. ENJOY THE DOMINION</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Keep the server spirit Mythical!</p></div>
+        </div>
+    </section>
 
-            <section id="apply" class="space-y-12">
-                <div class="text-center">
-                    <h2 class="mythic-font text-3xl text-white tracking-widest uppercase italic">Recruitment <span class="text-yellow-500">Portal</span></h2>
-                    <p class="text-[10px] text-slate-500 uppercase tracking-[0.4em] font-bold mt-2">Professional Vetting System</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="glass p-10 rounded-[3rem] group hover:border-yellow-500/50 transition-all">
-                        <h3 class="text-xl font-extrabold mb-3">Staff Trainee</h3>
-                        <p class="text-xs text-slate-400 mb-8 leading-relaxed">Entry-level position. Focus: Chat moderation, community health, and rule enforcement.</p>
-                        <button onclick="openModal()" class="w-full py-4 btn-gold rounded-2xl text-[10px]">Initialize Application</button>
-                    </div>
-                    <div class="glass p-10 rounded-[3rem] hover:border-indigo-500/50 transition-all">
-                        <h3 class="text-xl font-extrabold mb-3 text-slate-200">Technical Admin</h3>
-                        <p class="text-xs text-slate-400 mb-8 leading-relaxed">Advanced role. Oversight of plugin architecture and network logic. Verified Access only.</p>
-                        <a href="https://discord.com/channels/1363044619377578166/1363044619377578169" class="w-full py-4 block text-center border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-white/5">Apply via Discord</a>
-                    </div>
-                </div>
-            </section>
+    <section id="staff" class="max-w-7xl mx-auto px-6 py-20 border-t border-white/5 bg-white/[0.01]">
+        <h2 class="mythic-font text-3xl text-center mb-16 uppercase text-yellow-500 tracking-widest">Hierarchy</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+            <div class="staff-card p-6 rounded-2xl text-center border-yellow-500/50"><p class="text-yellow-500 text-[9px] font-black uppercase mb-1">Owner</p><h4 class="mythic-font">Chethan</h4></div>
+            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-blue-400 text-[9px] font-black uppercase mb-1">Co-Owner</p><h4 class="mythic-font">GamerBoy</h4></div>
+            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-red-500 text-[9px] font-black uppercase mb-1">Admin</p><h4 class="mythic-font">Shadawboy</h4></div>
+            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-green-400 text-[9px] font-black uppercase mb-1">Mod</p><h4 class="mythic-font">Thaman</h4></div>
+            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-slate-400 text-[9px] font-black uppercase mb-1">Staff</p><h4 class="mythic-font">Pavan</h4></div>
+            <div onclick="showApp('OVERLORD')" class="staff-card p-6 rounded-2xl text-center border-purple-500/30 cursor-pointer hover:bg-purple-500/10"><p class="text-purple-400 text-[9px] font-black mb-1">OVERLORD</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
+            <div onclick="showApp('LORD')" class="staff-card p-6 rounded-2xl text-center border-orange-500/30 cursor-pointer hover:bg-orange-500/10"><p class="text-orange-400 text-[9px] font-black mb-1">LORD</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
+            <div onclick="showApp('DEVELOPER')" class="staff-card p-6 rounded-2xl text-center border-cyan-500/30 cursor-pointer hover:bg-cyan-500/10"><p class="text-cyan-400 text-[9px] font-black mb-1">DEVELOPER</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
+        </div>
 
-            <section id="staff" class="space-y-8 pb-20">
-                <h2 class="mythic-font text-2xl text-center uppercase tracking-widest">Active Team</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-red-500 font-black block mb-1">OWNER</span><span class="text-xs font-bold"> Chethan</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-orange-500 font-black block mb-1">CO-OWNER</span><span class="text-xs font-bold">GamerBoy</span></div>
-                     <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-yellow-500 font-black block mb-1">ADMIN</span><span class="text-xs font-bold">Shadawboy</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-green-400 font-black block mb-1">MOD</span><span class="text-xs font-bold">Thaman</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-indigo-400 font-black block mb-1">STAFF</span><span class="text-xs font-bold">Pavan</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-emerald-400 font-black block mb-1">OVERLORD</span><span class="text-xs font-bold">APPLY TO BE HERE</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-cyan-400 font-black block mb-1">LORD</span><span class="text-xs font-bold">APPLY TO BE HERE</span></div>
-                    <div class="glass p-6 rounded-3xl text-center"><span class="text-[9px] text-blue-400 font-black block mb-1">DEVELOPER</span><span class="text-xs font-bold">APPLY TO BE HERE</span></div>
-               
-
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <div id="appModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-black/95 backdrop-blur-2xl">
-        <div class="glass w-full max-w-xl rounded-[3rem] overflow-hidden flex flex-col shadow-2xl border-white/10">
-            <div class="h-1.5 w-full bg-white/5"><div id="progressBar" class="h-full bg-yellow-500 transition-all duration-500" style="width: 33%"></div></div>
-            <div class="p-8 border-b border-white/5 flex justify-between items-center">
-                <h3 class="mythic-font text-sm text-yellow-500 uppercase">Trainee Application</h3>
-                <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:text-red-500 transition-all"><i class="fas fa-times"></i></button>
+        <div class="max-w-4xl mx-auto glass p-10 rounded-[2rem] flex flex-col md:flex-row items-center justify-between border-yellow-500/20 shadow-2xl">
+            <div>
+                <h3 class="mythic-font text-2xl mb-1 text-white">Apply for Staff</h3>
+                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Help Chethan protect the network.</p>
             </div>
-            
-            <form id="staffForm" class="p-10 space-y-6">
-                <div id="step1" class="space-y-6">
-                    <input type="text" id="ign" required class="w-full rounded-2xl px-6 py-4 text-sm outline-none focus:border-yellow-500" placeholder="Minecraft IGN">
-                    <input type="text" id="discord" required class="w-full rounded-2xl px-6 py-4 text-sm outline-none focus:border-yellow-500" placeholder="Discord User (e.g. user#0000)">
-                    <button type="button" onclick="nextStep(2)" class="btn-gold w-full py-4 rounded-2xl text-[10px]">Next: Scenario Test</button>
-                </div>
+            <button onclick="showApp('General Staff')" class="bg-yellow-500 text-black px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-yellow-500/20 hover:bg-white transition">Apply for Staff</button>
+        </div>
+    </section>
 
-                <div id="step2" class="hidden space-y-6">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Knowledge: How do you handle a toxic player?</label>
-                    <textarea id="logic" required class="w-full rounded-2xl px-6 py-4 text-sm h-32 outline-none focus:border-yellow-500" placeholder="Explain your moderation process..."></textarea>
-                    <button type="button" onclick="nextStep(3)" class="btn-gold w-full py-4 rounded-2xl text-[10px]">Next: Experience</button>
-                </div>
-
-                <div id="step3" class="hidden space-y-6">
-                    <label class="text-[10px] font-black text-slate-500 uppercase ml-1">Plugin Knowledge Level</label>
-                    <select id="experience" class="w-full rounded-2xl px-6 py-4 text-sm outline-none focus:border-yellow-500 appearance-none">
-                        <option value="Expert">Expert (LuckPerms Master)</option>
-                        <option value="Intermediate">Intermediate (Basic Commands)</option>
-                        <option value="Novice">Novice (Learning)</option>
-                    </select>
-                    <button type="submit" id="submitBtn" class="btn-gold w-full py-4 rounded-2xl text-[10px] shadow-lg shadow-yellow-500/20">Transmit Application</button>
+    <section id="apply-section" class="max-w-3xl mx-auto px-6 py-24 hidden-form">
+        <div class="glass p-10 rounded-[2.5rem] border-yellow-500/30">
+            <h2 class="mythic-font text-2xl text-center mb-8 uppercase text-yellow-500">Staff Vetting</h2>
+            <form id="mythicForm" class="space-y-6">
+                <div><label class="text-[10px] font-black uppercase tracking-widest">1. IGN & Discord</label><input type="text" id="q1" required></div>
+                <div><label class="text-[10px] font-black uppercase tracking-widest">2. Playtime History</label><input type="text" id="q2"></div>
+                <div><label class="text-[10px] font-black uppercase tracking-widest">3. Explain Core Rules</label><textarea id="q3" rows="2"></textarea></div>
+                <div><label class="text-[10px] font-black uppercase tracking-widest">4. Handle toxicity?</label><textarea id="q4" rows="2"></textarea></div>
+                <div><label class="text-[10px] font-black uppercase tracking-widest">5. Why you?</label><textarea id="q6" rows="2"></textarea></div>
+                <div class="flex gap-4">
+                    <button type="button" onclick="closeApp()" class="w-1/3 py-4 border border-white/10 rounded-xl font-black text-[10px] uppercase">Discard</button>
+                    <button type="button" id="submitBtn" onclick="submitToWebhook()" class="w-2/3 py-4 bg-yellow-500 text-black rounded-xl font-black text-[10px] uppercase">Submit</button>
                 </div>
             </form>
         </div>
-    </div>
+    </section>
+
+    <section class="py-24 text-center">
+        <div class="flex justify-center gap-12">
+            <a href="https://discord.gg/yourlink" target="_blank" class="social-icon"><i class="fab fa-discord"></i></a>
+            <a href="https://youtube.com/@MSOfficial69" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="https://instagram.com/ucsroyal" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://store.mythicalstudios.online" target="_blank" class="social-icon text-yellow-500"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+    </section>
+
+    <footer class="py-12 bg-black text-center border-t border-white/5">
+        <p class="text-slate-400 text-[11px] font-bold mb-2 uppercase tracking-widest">© Mythical Network | Mythical Wiki</p>
+        <p class="text-yellow-500 text-[10px] font-black uppercase tracking-[0.3em]">Created by Chethan</p>
+    </footer>
 
     <script>
-        // YOUR WEBHOOK IS NOW INTEGRATED
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1478344553042804891/tidOomGZTC8W7VTPNiKu517V7Cfm1wwpu3M6nyvKdkoXr2r0RCy8o-X32-BJ5lsmax41";
+        let currentRole = "";
+        const webhookURL = "https://discord.com/api/webhooks/1478344553042804891/tidOomGZTC8W7VTPNiKu517V7Cfm1wwpu3M6nyvKdkoXr2r0RCy8o-X32-BJ5lsmax41";
 
-        function openModal() { document.getElementById('appModal').classList.remove('hidden'); document.body.style.overflow = 'hidden'; nextStep(1); }
-        function closeModal() { document.getElementById('appModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
-
-        function nextStep(step) {
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.add('hidden');
-            document.getElementById('step3').classList.add('hidden');
-            document.getElementById('step' + step).classList.remove('hidden');
-            document.getElementById('progressBar').style.width = (step / 3) * 100 + '%';
+        function showApp(role) {
+            currentRole = role;
+            document.getElementById('apply-section').classList.remove('hidden-form');
+            document.getElementById('apply-section').scrollIntoView({ behavior: 'smooth' });
         }
+        function closeApp() { document.getElementById('apply-section').classList.add('hidden-form'); }
 
-        document.getElementById('staffForm').onsubmit = async function(e) {
-            e.preventDefault();
+        async function submitToWebhook() {
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "TRANSMITTING TO NETWORK...";
-            btn.disabled = true;
-
+            const data = { ign: document.getElementById('q1').value, q3: document.getElementById('q3').value, q4: document.getElementById('q4').value, q6: document.getElementById('q6').value };
+            if(!data.ign) return alert("IGN is required!");
+            btn.innerText = "SUBMITTING...";
+            
             const payload = {
-                username: "Mythical Vetting System",
-                avatar_url: "https://i.imgur.com/A6jA6t8.png",
                 embeds: [{
-                    title: "Incoming Candidate Application",
-                    color: 15418888,
-                    timestamp: new Date(),
+                    title: "🛡️ STAFF APPLICATION",
+                    color: 15448328,
                     fields: [
-                        { name: "👤 Player IGN", value: `\`${document.getElementById('ign').value}\``, inline: true },
-                        { name: "💬 Discord ID", value: `\`${document.getElementById('discord').value}\``, inline: true },
-                        { name: "🧠 Scenario Test", value: document.getElementById('logic').value },
-                        { name: "🛠️ Knowledge Level", value: `**${document.getElementById('experience').value}**` }
+                        { name: "✨ Role", value: currentRole, inline: true },
+                        { name: "👤 User", value: data.ign, inline: true },
+                        { name: "📜 Knowledge", value: data.q3 },
+                        { name: "⚖️ Situational", value: data.q4 },
+                        { name: "🔥 Pitch", value: data.q6 }
                     ],
-                    footer: { text: "Mythical Studios • Administration Hub" }
+                    footer: { text: "Mythical Wiki • Created by Chethan" },
+                    timestamp: new Date()
                 }]
             };
 
             try {
-                await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                alert('TRANSMISSION SUCCESSFUL: Your application has been logged for review.');
-                closeModal();
-            } catch (err) {
-                alert('Connection Error. Please check your internet or Discord link.');
-            }
-            btn.innerText = "TRANSMIT APPLICATION";
-            btn.disabled = false;
-        };
+                const res = await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if(res.ok) { alert("Successfully Submitted!"); closeApp(); }
+            } catch (e) { alert("Error connecting to Discord."); }
+            finally { btn.innerText = "Submit"; }
+        }
     </script>
 </body>
 </html>
