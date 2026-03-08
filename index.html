@@ -8,157 +8,155 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background: #020617; color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
+        
+        :root { --mythic-gold: #eab308; --mythic-bg: #020617; }
+        
+        body { font-family: 'Inter', sans-serif; background: var(--mythic-bg); color: #f8fafc; scroll-behavior: smooth; overflow-x: hidden; }
         .mythic-font { font-family: 'Cinzel', serif; }
-        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
         .hero-gradient { background: radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.1) 0%, transparent 70%); }
-        .rule-card { border-left: 4px solid #eab308; background: rgba(255,255,255,0.02); transition: 0.3s ease; }
-        .rule-card:hover { background: rgba(234, 179, 8, 0.05); transform: translateX(5px); }
-        .staff-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(255,255,255,0.05); }
-        input, textarea, select { background: rgba(255,255,255,0.05) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; width: 100%; padding: 14px; border-radius: 12px; margin-top: 8px; }
-        .hidden-form { display: none; }
-        .social-icon { font-size: 2rem; transition: 0.3s; color: #94a3b8; }
-        .social-icon:hover { color: #eab308; transform: translateY(-5px); }
+        .glass { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(12px); }
+        
+        /* Interactive Elements */
+        .giant-input { background: rgba(255,255,255,0.03)!important; border: 2px solid rgba(255,255,255,0.1)!important; color: white!important; width: 100%; padding: 20px!important; border-radius: 15px; font-size: 1.1rem; transition: 0.3s; outline: none; }
+        .giant-input:focus { border-color: var(--mythic-gold)!important; box-shadow: 0 0 15px rgba(234, 179, 8, 0.2); }
+        
+        /* Countdown Box */
+        .timer-unit { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; min-width: 100px; }
+        
+        /* Staff & Games Grid */
+        .card-hover { transition: 0.3s ease; border: 1px solid rgba(255,255,255,0.05); }
+        .card-hover:hover { transform: translateY(-5px); border-color: var(--mythic-gold); background: rgba(234, 179, 8, 0.02); }
+
+        /* Fullscreen Overlay */
+        #interviewOverlay { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.99); backdrop-filter: blur(20px); z-index: 999; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.5s; }
+        #interviewOverlay.active { display: flex; opacity: 1; }
+        .step-content { display: none; width: 100%; max-width: 700px; animation: slideUp 0.4s ease forwards; }
+        .step-content.active { display: block; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="antialiased">
 
-    <nav class="sticky top-0 z-[100] bg-slate-950/90 px-6 py-4 border-b border-white/5">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <i class="fas fa-dragon text-yellow-500"></i>
-                <a href="#" class="mythic-font text-lg font-black uppercase tracking-widest">Mythical<span class="text-yellow-500">Network</span></a>
-            </div>
-            <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-widest items-center">
-                <a href="#home" class="hover:text-yellow-500 transition">Home</a>
-                <a href="#rules" class="hover:text-yellow-500 transition">Rules</a>
-                <a href="#staff" class="hover:text-yellow-500 transition">Staff</a>
-                <a href="https://store.mythicalstudios.online" target="_blank" class="text-yellow-500 border border-yellow-500/40 px-5 py-2 rounded-xl hover:bg-yellow-500 hover:text-black transition">STORE</a>
-            </div>
+    <header class="relative hero-gradient min-h-screen flex flex-col items-center justify-center text-center px-6">
+        <div class="mb-6 bg-yellow-500/10 border border-yellow-500/20 px-4 py-1 rounded-full">
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-yellow-500">Hardware Arrives April 10 • Launch April 20</p>
         </div>
-    </nav>
+        <h1 class="mythic-font text-6xl md:text-9xl mb-8 leading-none tracking-tighter text-white">THE <span class="text-yellow-500">MYTHICAL</span><br>NETWORK</h1>
+        
+        <div id="countdown" class="flex flex-wrap justify-center gap-4 mb-12">
+            <div class="timer-unit"><span id="days" class="text-4xl font-black text-yellow-500">00</span><p class="text-[9px] uppercase tracking-widest mt-2 text-slate-500">Days</p></div>
+            <div class="timer-unit"><span id="hours" class="text-4xl font-black text-yellow-500">00</span><p class="text-[9px] uppercase tracking-widest mt-2 text-slate-500">Hours</p></div>
+            <div class="timer-unit"><span id="minutes" class="text-4xl font-black text-yellow-500">00</span><p class="text-[9px] uppercase tracking-widest mt-2 text-slate-500">Minutes</p></div>
+            <div class="timer-unit"><span id="seconds" class="text-4xl font-black text-yellow-500">00</span><p class="text-[9px] uppercase tracking-widest mt-2 text-slate-500">Seconds</p></div>
+        </div>
 
-    <header id="home" class="relative hero-gradient min-h-[90vh] flex flex-col items-center justify-center text-center px-6">
-        <div class="bg-yellow-500/10 px-4 py-1 rounded-full border border-yellow-500/20 mb-6">
-            <p class="text-[10px] font-black uppercase tracking-widest text-yellow-500">Owned by Chethan</p>
-        </div>
-        <h1 class="mythic-font text-5xl md:text-8xl mb-6 leading-none tracking-tighter">THE <span class="text-yellow-500">MYTHICAL</span><br>NETWORK</h1>
-        <p class="max-w-2xl text-slate-400 text-sm md:text-base mb-10 leading-relaxed">
-            Experience the ultimate Minecraft Dominion. Our network offers custom-coded features, competitive gameplay, and a community built by players, for players. Forge your legacy today.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4">
-            <a href="https://store.mythicalstudios.online" target="_blank" class="bg-yellow-500 text-black px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white transition shadow-xl shadow-yellow-500/10">Official Store</a>
-            <a href="#rules" class="bg-white/5 border border-white/10 px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-white/10 transition">Rules & Wiki</a>
+        <div class="flex gap-4">
+            <a href="#realms" class="bg-yellow-500 text-black px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white transition">Explore Realms</a>
+            <button onclick="openPortal('General')" class="bg-white/5 border border-white/10 px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white/10 transition">Apply for Staff</button>
         </div>
     </header>
 
-    <section id="rules" class="max-w-5xl mx-auto px-6 py-24 border-t border-white/5">
-        <h2 class="mythic-font text-3xl text-center mb-16 uppercase tracking-widest text-yellow-500">The 10 Commandments</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="rule-card p-6 rounded-r-xl"><h4>01. NO HACKING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Permanent IP ban for clients/exploits.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>02. RESPECT STAFF</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Staff word is final. Do not disrespect Chethan.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>03. NO GRIEFING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Do not destroy others' property or claims.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>04. CHAT CONDUCT</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No racism, sexism, or advertising servers.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>05. LAG MACHINES</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Do not build machines meant to crash the server.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>06. NO SCAMMING</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Fair trading only. Items will be wiped if caught.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>07. NO EXPLOITS</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Report bugs immediately to stay rewarded.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>08. ALT ACCOUNTS</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No bypass-banning using alternate accounts.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>09. FAIR PVP</h4><p class="text-xs text-slate-500 uppercase tracking-wider">No combat logging or glitching in combat.</p></div>
-            <div class="rule-card p-6 rounded-r-xl"><h4>10. ENJOY THE DOMINION</h4><p class="text-xs text-slate-500 uppercase tracking-wider">Keep the server spirit Mythical!</p></div>
+    <section id="realms" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/5">
+        <h2 class="mythic-font text-4xl text-center mb-16 uppercase tracking-widest text-yellow-500">The 7 Realms</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-heart text-red-500 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Lifesteal</h3><p class="text-slate-500 text-xs">Kill players to steal hearts. Zero hearts means elimination.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-bed text-orange-500 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Bedwars</h3><p class="text-slate-500 text-xs">Protect your bed, destroy the core, and survive.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-cloud text-blue-400 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Skyblock</h3><p class="text-slate-500 text-xs">Custom generators and infinite expansion in the sky.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-cube text-green-500 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Oneblock</h3><p class="text-slate-500 text-xs">Break one regenerating block to build your universe.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-skull text-purple-500 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Hardcore</h3><p class="text-slate-500 text-xs">High difficulty survival. One life. One legacy.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem]"><i class="fas fa-bomb text-yellow-500 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">TNT Run</h3><p class="text-slate-500 text-xs">Fast-paced parkour where the floor vanishes.</p></div>
+            <div class="glass card-hover p-8 rounded-[2rem] lg:col-span-2"><i class="fas fa-shield-alt text-cyan-400 mb-4 text-2xl"></i><h3 class="mythic-font text-lg mb-2">Survival Survival</h3><p class="text-slate-500 text-xs">Classic Minecraft survival with a Mythical twist.</p></div>
         </div>
     </section>
 
-    <section id="staff" class="max-w-7xl mx-auto px-6 py-20 border-t border-white/5 bg-white/[0.01]">
-        <h2 class="mythic-font text-3xl text-center mb-16 uppercase text-yellow-500 tracking-widest">Hierarchy</h2>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <div class="staff-card p-6 rounded-2xl text-center border-yellow-500/50"><p class="text-yellow-500 text-[9px] font-black uppercase mb-1">Owner</p><h4 class="mythic-font">Chethan</h4></div>
-            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-blue-400 text-[9px] font-black uppercase mb-1">Co-Owner</p><h4 class="mythic-font">GamerBoy</h4></div>
-            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-red-500 text-[9px] font-black uppercase mb-1">Admin</p><h4 class="mythic-font">Shadawboy</h4></div>
-            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-green-400 text-[9px] font-black uppercase mb-1">Mod</p><h4 class="mythic-font">Thaman</h4></div>
-            <div class="staff-card p-6 rounded-2xl text-center"><p class="text-slate-400 text-[9px] font-black uppercase mb-1">Staff</p><h4 class="mythic-font">Pavan</h4></div>
-            <div onclick="showApp('OVERLORD')" class="staff-card p-6 rounded-2xl text-center border-purple-500/30 cursor-pointer hover:bg-purple-500/10"><p class="text-purple-400 text-[9px] font-black mb-1">OVERLORD</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
-            <div onclick="showApp('LORD')" class="staff-card p-6 rounded-2xl text-center border-orange-500/30 cursor-pointer hover:bg-orange-500/10"><p class="text-orange-400 text-[9px] font-black mb-1">LORD</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
-            <div onclick="showApp('DEVELOPER')" class="staff-card p-6 rounded-2xl text-center border-cyan-500/30 cursor-pointer hover:bg-cyan-500/10"><p class="text-cyan-400 text-[9px] font-black mb-1">DEVELOPER</p><h4 class="text-slate-500 text-[10px] font-bold">APPLY NOW</h4></div>
+    <section id="staff" class="max-w-7xl mx-auto px-6 py-24 border-t border-white/5 bg-white/[0.01]">
+        <h2 class="mythic-font text-4xl text-center mb-16 uppercase text-yellow-500 tracking-widest">The Council</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="glass card-hover p-8 rounded-3xl text-center border-yellow-500/40"><p class="text-yellow-500 text-[8px] font-black uppercase mb-1 tracking-widest">Owner</p><h4 class="mythic-font text-white">Chethan</h4></div>
+            <div class="glass card-hover p-8 rounded-3xl text-center"><p class="text-blue-400 text-[8px] font-black uppercase mb-1 tracking-widest">Co-Owner</p><h4 class="mythic-font text-white">GamerBoy</h4></div>
+            <div class="glass card-hover p-8 rounded-3xl text-center"><p class="text-red-500 text-[8px] font-black uppercase mb-1 tracking-widest">Admin</p><h4 class="mythic-font text-white">Shadawboy</h4></div>
+            <div class="glass card-hover p-8 rounded-3xl text-center"><p class="text-green-400 text-[8px] font-black uppercase mb-1 tracking-widest">Moderator</p><h4 class="mythic-font text-white">Thaman</h4></div>
+            <div class="glass card-hover p-8 rounded-3xl text-center"><p class="text-purple-400 text-[8px] font-black uppercase mb-1 tracking-widest">Staff</p><h4 class="mythic-font text-white">Pavan</h4></div>
         </div>
+    </section>
 
-        <div class="max-w-4xl mx-auto glass p-10 rounded-[2rem] flex flex-col md:flex-row items-center justify-between border-yellow-500/20 shadow-2xl">
-            <div>
-                <h3 class="mythic-font text-2xl mb-1 text-white">Apply for Staff</h3>
-                <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Help Chethan protect the network.</p>
+    <div id="interviewOverlay">
+        <div class="absolute top-0 left-0 w-full h-1 bg-white/5"><div id="progressFill" class="h-full bg-yellow-500 shadow-[0_0_15px_#eab308] transition-all duration-500" style="width: 20%"></div></div>
+        <button onclick="closePortal()" class="absolute top-10 right-10 text-slate-500 hover:text-white text-3xl"><i class="fas fa-times"></i></button>
+
+        <div id="step1" class="step-content active px-6">
+            <h2 class="text-5xl md:text-7xl font-black mb-10">Identify yourself.</h2>
+            <div class="space-y-4">
+                <input type="text" id="ign" class="giant-input" placeholder="Your Minecraft Name">
+                <input type="text" id="discord" class="giant-input" placeholder="Discord User (e.g. Chethan#1234)">
             </div>
-            <button onclick="showApp('General Staff')" class="bg-yellow-500 text-black px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-yellow-500/20 hover:bg-white transition">Apply for Staff</button>
+            <button onclick="nextStep()" class="mt-10 bg-yellow-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest">Next Question</button>
         </div>
-    </section>
 
-    <section id="apply-section" class="max-w-3xl mx-auto px-6 py-24 hidden-form">
-        <div class="glass p-10 rounded-[2.5rem] border-yellow-500/30">
-            <h2 class="mythic-font text-2xl text-center mb-8 uppercase text-yellow-500">Staff Vetting</h2>
-            <form id="mythicForm" class="space-y-6">
-                <div><label class="text-[10px] font-black uppercase tracking-widest">1. IGN & Discord</label><input type="text" id="q1" required></div>
-                <div><label class="text-[10px] font-black uppercase tracking-widest">2. Playtime History</label><input type="text" id="q2"></div>
-                <div><label class="text-[10px] font-black uppercase tracking-widest">3. Explain Core Rules</label><textarea id="q3" rows="2"></textarea></div>
-                <div><label class="text-[10px] font-black uppercase tracking-widest">4. Handle toxicity?</label><textarea id="q4" rows="2"></textarea></div>
-                <div><label class="text-[10px] font-black uppercase tracking-widest">5. Why you?</label><textarea id="q6" rows="2"></textarea></div>
-                <div class="flex gap-4">
-                    <button type="button" onclick="closeApp()" class="w-1/3 py-4 border border-white/10 rounded-xl font-black text-[10px] uppercase">Discard</button>
-                    <button type="button" id="submitBtn" onclick="submitToWebhook()" class="w-2/3 py-4 bg-yellow-500 text-black rounded-xl font-black text-[10px] uppercase">Submit</button>
-                </div>
-            </form>
+        <div id="step2" class="step-content px-6">
+            <h2 class="text-5xl md:text-7xl font-black mb-10">Pick a Realm.</h2>
+            <select id="realmChoice" class="giant-input">
+                <option value="Lifesteal">Lifesteal</option>
+                <option value="Bedwars">Bedwars</option>
+                <option value="Skyblock/Oneblock">Skyblock/Oneblock</option>
+                <option value="General Network">General Network</option>
+            </select>
+            <button onclick="nextStep()" class="mt-10 bg-yellow-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest">Next Question</button>
         </div>
-    </section>
 
-    <section class="py-24 text-center">
-        <div class="flex justify-center gap-12">
-            <a href="https://discord.gg/yourlink" target="_blank" class="social-icon"><i class="fab fa-discord"></i></a>
-            <a href="https://youtube.com/@MSOfficial69" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
-            <a href="https://instagram.com/ucsroyal" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://store.mythicalstudios.online" target="_blank" class="social-icon text-yellow-500"><i class="fas fa-shopping-cart"></i></a>
+        <div id="step3" class="step-content px-6">
+            <h2 class="text-5xl md:text-7xl font-black mb-4">The Pitch.</h2>
+            <p class="text-slate-500 mb-8 uppercase text-xs tracking-widest">Why should you join the Mythical Team?</p>
+            <textarea id="pitch" class="giant-input h-64" placeholder="Tell us about your experience and dedication..."></textarea>
+            <button id="finalBtn" onclick="submitFinal()" class="mt-10 bg-yellow-500 text-black px-12 py-5 rounded-2xl font-black uppercase tracking-widest">Submit Application</button>
         </div>
-    </section>
-
-    <footer class="py-12 bg-black text-center border-t border-white/5">
-        <p class="text-slate-400 text-[11px] font-bold mb-2 uppercase tracking-widest">© Mythical Network | Mythical Wiki</p>
-        <p class="text-yellow-500 text-[10px] font-black uppercase tracking-[0.3em]">Created by Chethan</p>
-    </footer>
+    </div>
 
     <script>
-        let currentRole = "";
-        const webhookURL = "https://discord.com/api/webhooks/1478344553042804891/tidOomGZTC8W7VTPNiKu517V7Cfm1wwpu3M6nyvKdkoXr2r0RCy8o-X32-BJ5lsmax41";
+        // Countdown Logic
+        const target = new Date("April 20, 2026 00:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const d = target - now;
+            document.getElementById('days').innerText = String(Math.floor(d / 86400000)).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((d % 86400000) / 3600000)).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(Math.floor((d % 3600000) / 60000)).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(Math.floor((d % 60000) / 1000)).padStart(2, '0');
+        }, 1000);
 
-        function showApp(role) {
-            currentRole = role;
-            document.getElementById('apply-section').classList.remove('hidden-form');
-            document.getElementById('apply-section').scrollIntoView({ behavior: 'smooth' });
+        // Interview Portal Logic
+        let currentStep = 1;
+        function openPortal(role) { document.getElementById('interviewOverlay').classList.add('active'); currentStep = 1; }
+        function closePortal() { document.getElementById('interviewOverlay').classList.remove('active'); }
+        
+        function nextStep() {
+            if (currentStep === 1 && !document.getElementById('ign').value) return alert("IGN Required!");
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            document.getElementById('progressFill').style.width = (currentStep / 3 * 100) + "%";
         }
-        function closeApp() { document.getElementById('apply-section').classList.add('hidden-form'); }
 
-        async function submitToWebhook() {
-            const btn = document.getElementById('submitBtn');
-            const data = { ign: document.getElementById('q1').value, q3: document.getElementById('q3').value, q4: document.getElementById('q4').value, q6: document.getElementById('q6').value };
-            if(!data.ign) return alert("IGN is required!");
-            btn.innerText = "SUBMITTING...";
+        async function submitFinal() {
+            const btn = document.getElementById('finalBtn');
+            btn.innerText = "TRANSMITTING...";
+            const webhook = "https://discord.com/api/webhooks/1478344553042804891/tidOomGZTC8W7VTPNiKu517V7Cfm1wwpu3M6nyvKdkoXr2r0RCy8o-X32-BJ5lsmax41";
             
             const payload = {
                 embeds: [{
-                    title: "🛡️ STAFF APPLICATION",
+                    title: "🛡️ NEW STAFF APPLICATION",
                     color: 15448328,
                     fields: [
-                        { name: "✨ Role", value: currentRole, inline: true },
-                        { name: "👤 User", value: data.ign, inline: true },
-                        { name: "📜 Knowledge", value: data.q3 },
-                        { name: "⚖️ Situational", value: data.q4 },
-                        { name: "🔥 Pitch", value: data.q6 }
+                        { name: "👤 User", value: `${document.getElementById('ign').value} (@${document.getElementById('discord').value})` },
+                        { name: "🎮 Realm", value: document.getElementById('realmChoice').value },
+                        { name: "🔥 Pitch", value: document.getElementById('pitch').value }
                     ],
-                    footer: { text: "Mythical Wiki • Created by Chethan" },
                     timestamp: new Date()
                 }]
             };
 
-            try {
-                const res = await fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                if(res.ok) { alert("Successfully Submitted!"); closeApp(); }
-            } catch (e) { alert("Error connecting to Discord."); }
-            finally { btn.innerText = "Submit"; }
+            const res = await fetch(webhook, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+            if(res.ok) { alert("Sent!"); location.reload(); }
         }
     </script>
 </body>
